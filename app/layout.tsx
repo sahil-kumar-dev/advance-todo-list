@@ -3,6 +3,8 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import NextTopLoader from "nextjs-toploader";
+import { Toaster } from "sonner";
 
 const inter = Inter({
 	variable: "--font-inter",
@@ -23,6 +25,15 @@ export default function RootLayout({
 		<html lang="en">
 			<body className={` ${inter.className} antialiased`}>
 				<SidebarProvider>
+					<NextTopLoader
+						color="#ff6767"
+						height={3}
+						showSpinner={false}
+					/>
+					<Toaster
+						richColors
+						position="top-center"
+					/>
 					<AppSidebar />
 					<main className="w-full relative bg-[#F5F8FF] dark:bg-gray-800 ">
 						<div className="fixed top-0 bg-white w-full py-1 md:px-4">

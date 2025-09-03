@@ -18,6 +18,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { Controller, useForm } from "react-hook-form";
 import { Card, CardContent, CardHeader } from "../ui/card";
+import { addTodo, findTodoById, updateTodo } from "@/services";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { useEffect } from "react";
 
 export default function TodoForm({
 	isEdit = false,
@@ -26,25 +30,50 @@ export default function TodoForm({
 	isEdit?: boolean;
 	id?: string;
 }) {
+	const router = useRouter();
+
 	const {
 		handleSubmit,
 		control,
 		register,
+		reset,
+		setValue,
 		formState: { errors, isSubmitting },
 	} = useForm<AddTodoSchema>({
 		defaultValues: {
-			title: "",
-			description: "",
-			category: "",
 			startDate: new Date(),
 		},
 		resolver: zodResolver(addTodoSchema),
 	});
 
-	const onSubmit = (data: AddTodoSchema) => {
-		console.log(errors);
-		console.log(data);
+	const onSubmit = async (data: AddTodoSchema) => {
+		if (isEdit) {
+			await updateTodo(id, data);
+			toast.info("Todo updated successfully");
+			router.push("/todos");
+			return;
+		} else {
+			await addTodo(data);
+			toast.success("Todo added successfully");
+			router.push("/todos");
+		}
 	};
+
+	useEffect(() => {
+		(async () => {
+			if (isEdit) {
+				const todo = await findTodoById(id);
+				const parsedTodo = JSON.parse(todo);
+				console.log(parsedTodo);
+				setValue("title", parsedTodo.title);
+				setValue("description", parsedTodo.description);
+				setValue("startDate", new Date(parsedTodo.startDate));
+				setValue("category", parsedTodo.category);
+				setValue("endDate", new Date(parsedTodo.endDate));
+			}
+		})();
+	}, [id, isEdit, reset, setValue]);
+
 	return (
 		<Card>
 			<CardHeader>
@@ -126,7 +155,10 @@ export default function TodoForm({
 						name="category"
 						control={control}
 						render={({ field }) => (
-							<Select onValueChange={field.onChange}>
+							<Select
+								onValueChange={field.onChange}
+								value={field.value}
+							>
 								<SelectTrigger
 									aria-invalid={!!errors.category?.message}
 									className="w-full"

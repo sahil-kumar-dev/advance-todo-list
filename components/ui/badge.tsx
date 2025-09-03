@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
@@ -14,7 +13,7 @@ const badgeVariants = cva(
 				completed:
 					"border-transparent bg-success text-white [a&]:hover:bg-secondary/90",
 				pending:
-					"border-transparent bg-error text-white [a&]:hover:bg-error/90"
+					"border-transparent bg-error text-white [a&]:hover:bg-error/90",
 			},
 		},
 		defaultVariants: {
@@ -23,16 +22,20 @@ const badgeVariants = cva(
 	}
 );
 
+type BadgeVariant = "default" | "completed" | "pending";
+
 function Badge({
 	className,
-	variant,
-}: React.ComponentProps<"span"> &
-	VariantProps<typeof badgeVariants> & { asChild?: boolean }) {
+	variant = "default",
+	children,
+}: {
+	variant?: BadgeVariant;
+	className?: string;
+	children?: React.ReactNode;
+}) {
 	return (
 		<span className={cn(badgeVariants({ variant }), className)}>
-			{variant!
-				.replace(/([A-Z])/g, " $1")
-				.replace(/^./, (str) => str.toUpperCase())}
+			{children ?? variant.charAt(0).toUpperCase() + variant.slice(1)}
 		</span>
 	);
 }
