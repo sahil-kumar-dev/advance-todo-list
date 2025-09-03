@@ -8,16 +8,21 @@ import Link from "next/link";
 export default function Home() {
 	return (
 		<div className="flex items-center justify-center h-full">
-			<div className="content h-[calc(100vh_-_100px)]">
+			<div className="content h-[calc(100vh_-_150px)]">
 				<div className="lg:grid grid-cols-2 grid-rows-2 h-full lg:gap-6 md:gap-4 gap-2 space-y-5 lg:space-y-0">
 					<Card className="row-span-2">
-						<CardHeader>
+						<CardHeader className="flex justify-between items-center">
 							<div className="flex gap-2 items-center">
 								<CalendarCheck className="text-gray-500" />
 								<p className="text-primary font-medium">
 									To Dos
 								</p>
 							</div>
+							<Link href={"/add-todo"}>
+								<Button className="cursor-pointer">
+									Add Todo
+								</Button>
+							</Link>
 						</CardHeader>
 						<CardContent className="overflow-scroll overflow-x-hidden space-y-5 lg:py-5">
 							<TodoCard />
@@ -25,7 +30,7 @@ export default function Home() {
 							<TodoCard />
 							<TodoCard />
 							<div className="mx-auto w-fit">
-								<Link href={'/todos'}>
+								<Link href={"/todos"}>
 									<Button className="cursor-pointer">
 										View All
 									</Button>

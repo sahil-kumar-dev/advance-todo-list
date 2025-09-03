@@ -21,10 +21,10 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<body className={` ${inter.className} antialiased bg-[#F5F8FF]`}>
+			<body className={` ${inter.className} antialiased`}>
 				<SidebarProvider>
 					<AppSidebar />
-					<main className="w-full relative">
+					<main className="w-full relative bg-[#F5F8FF] dark:bg-gray-800 ">
 						<div className="fixed top-0 bg-white w-full py-1 md:px-4">
 							<SidebarTrigger />
 						</div>

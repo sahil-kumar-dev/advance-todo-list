@@ -46,7 +46,7 @@ export function AppSidebar() {
 							src={"/logo.svg"}
 							width={200}
 							height={50}
-							className="w-full"
+							className="w-full invert"
 							alt="Let's remember"
 						/>
 					</SidebarGroupLabel>
