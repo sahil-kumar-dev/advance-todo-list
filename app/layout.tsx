@@ -1,39 +1,37 @@
+import { AppSidebar } from "@/components/shared/AppSidebar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
 const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-})
+	variable: "--font-inter",
+	subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
-  title: "Let's Remember",
-  description: "Advance todo app for your daily needs",
+	title: "Let's Remember",
+	description: "Advance todo app for your daily needs",
 };
 
 export default function RootLayout({
-  children,
+	children,
 }: Readonly<{
-  children: React.ReactNode;
+	children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en">
-      <body
-        className={` ${inter.className} antialiased`}
-      >
-        {children}
-      </body>
-    </html>
-  );
+	return (
+		<html lang="en">
+			<body className={` ${inter.className} antialiased bg-[#F5F8FF]`}>
+				<SidebarProvider>
+					<AppSidebar />
+					<main className="w-full relative">
+						<div className="fixed top-0 bg-white w-full py-1 md:px-4">
+							<SidebarTrigger />
+						</div>
+						{children}
+					</main>
+				</SidebarProvider>
+			</body>
+		</html>
+	);
 }
