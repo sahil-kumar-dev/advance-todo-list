@@ -10,10 +10,6 @@ import {
 	ChartTooltipContent,
 } from "@/components/ui/chart";
 
-const chartData = [
-	{ status: "completed", tasks: 275 },
-	{ status: "pending", tasks: 100 },
-];
 
 const chartConfig: ChartConfig = {
 	completed: {
@@ -26,10 +22,22 @@ const chartConfig: ChartConfig = {
 	},
 } as ChartConfig;
 
-export function ChartStatus() {
-	const totalTasks = React.useMemo(() => {
-		return chartData.reduce((acc, curr) => acc + curr.tasks, 0);
-	}, []);
+export function ChartStatus({ todos }) {
+    
+	if (!Array.isArray(todos)) {
+		return <div>No todos found.</div>;
+	}
+
+	const chartData = [
+		{
+			status: "completed",
+			tasks: todos.filter((todo) => todo.status === "completed").length,
+		},
+		{
+			status: "pending",
+			tasks: todos.filter((todo) => todo.status === "pending").length,
+		},
+	];
 
 	return (
 		<ChartContainer
@@ -71,7 +79,7 @@ export function ChartStatus() {
 											y={viewBox.cy}
 											className="fill-foreground text-3xl font-bold"
 										>
-											{totalTasks.toLocaleString()}
+											{todos?.length.toLocaleString()}
 										</tspan>
 										<tspan
 											x={viewBox.cx}

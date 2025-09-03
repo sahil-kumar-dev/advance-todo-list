@@ -15,6 +15,7 @@ export default function TodoCard({
 	endDate,
 	status,
 	id,
+	showCta = true,
 }: {
 	title: string;
 	description: string;
@@ -22,6 +23,7 @@ export default function TodoCard({
 	endDate: Date;
 	status: "default" | "pending" | "completed";
 	id: string;
+	showCta?: boolean;
 }) {
 	const handleDeleteTodo = () => {
 		deleteTodo(id);
@@ -38,34 +40,36 @@ export default function TodoCard({
 					{title}
 				</h4>
 				{/* CTAs For Desktop */}
-				<div className=" gap-1 md:gap-2 lg:gap-4 hidden lg:flex">
-					<Button
-						onClick={() => {
-							updateStatus(id);
-						}}
-						className="bg-success hover:bg-success/70 disabled:cursor-not-allowed"
-						disabled={status === "completed"}
-					>
-						Mark as completed
-						<CheckCheck />
-					</Button>
-					<Link
-						href={"/edit-todo/" + id}
-						className={""}
-					>
-						<Button className="bg-progress hover:bg-progress/70">
-							Edit
-							<Pencil />
+				{showCta && (
+					<div className=" gap-1 md:gap-2 lg:gap-4 hidden lg:flex">
+						<Button
+							onClick={() => {
+								updateStatus(id);
+							}}
+							className="bg-success hover:bg-success/70 disabled:cursor-not-allowed"
+							disabled={status === "completed"}
+						>
+							Mark as completed
+							<CheckCheck />
 						</Button>
-					</Link>
-					<Button
-						onClick={() => deleteTodo(id)}
-						className="bg-error hover:bg-error/70"
-					>
-						Delete
-						<Trash />
-					</Button>
-				</div>
+						<Link
+							href={"/edit-todo/" + id}
+							className={""}
+						>
+							<Button className="bg-progress hover:bg-progress/70">
+								Edit
+								<Pencil />
+							</Button>
+						</Link>
+						<Button
+							onClick={() => deleteTodo(id)}
+							className="bg-error hover:bg-error/70"
+						>
+							Delete
+							<Trash />
+						</Button>
+					</div>
+				)}
 			</div>
 			<p className="text-gray-500">{description}</p>
 			<div className="flex justify-between items-center">

@@ -4,8 +4,15 @@ import { ChartStatus } from "./components/chart-status";
 import TodoCard from "@/components/shared/TodoCard";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { getAllTodos } from "@/services";
 
-export default function Home() {
+export default async function Page() {
+	const todos = await getAllTodos();
+
+	if (!Array.isArray(todos)) {
+		return <div>No todos found.</div>;
+	}
+
 	return (
 		<div className="flex items-center justify-center h-full">
 			<div className="content h-[calc(100vh_-_150px)]">
@@ -25,10 +32,21 @@ export default function Home() {
 							</Link>
 						</CardHeader>
 						<CardContent className="overflow-scroll overflow-x-hidden space-y-5 lg:py-5">
-							<TodoCard />
-							<TodoCard />
-							<TodoCard />
-							<TodoCard />
+							{todos
+								.filter((todo) => todo.status === "pending")
+								.splice(0, 4)
+								.map((todo) => (
+									<TodoCard
+										showCta={false}
+										key={todo._id}
+										title={todo.title}
+										description={todo.description}
+										startDate={todo.startDate}
+										endDate={todo.endDate}
+										status={todo.status}
+										id={todo._id}
+									/>
+								))}
 							<div className="mx-auto w-fit">
 								<Link href={"/todos"}>
 									<Button className="cursor-pointer">
@@ -48,7 +66,7 @@ export default function Home() {
 							</div>
 						</CardHeader>
 						<CardContent>
-							<ChartStatus />
+							<ChartStatus todos={todos} />
 						</CardContent>
 					</Card>
 					<Card className="">
@@ -60,8 +78,22 @@ export default function Home() {
 								</p>
 							</div>
 						</CardHeader>
-						<CardContent>
-							<TodoCard />
+						<CardContent className="grid lg:grid-cols-2 gap-4">
+							{todos
+								.filter((todo) => todo.status === "completed")
+								.splice(0, 2)
+								.map((todo) => (
+									<TodoCard
+										showCta={false}
+										key={todo._id}
+										title={todo.title}
+										description={todo.description}
+										startDate={todo.startDate}
+										endDate={todo.endDate}
+										status={todo.status}
+										id={todo._id}
+									/>
+								))}
 						</CardContent>
 					</Card>
 				</div>

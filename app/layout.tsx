@@ -5,6 +5,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import NextTopLoader from "nextjs-toploader";
 import { Toaster } from "sonner";
+import Navbar from "@/components/shared/Navbar";
 
 const inter = Inter({
 	variable: "--font-inter",
@@ -22,8 +23,8 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en">
-			<body className={` ${inter.className} antialiased`}>
+		<html lang="en" suppressHydrationWarning>
+			<body className={` ${inter.className} antialiased transition-all duration-700`}>
 				<SidebarProvider>
 					<NextTopLoader
 						color="#ff6767"
@@ -36,9 +37,7 @@ export default function RootLayout({
 					/>
 					<AppSidebar />
 					<main className="w-full relative bg-[#F5F8FF] dark:bg-gray-800 ">
-						<div className="fixed top-0 bg-white w-full py-1 md:px-4">
-							<SidebarTrigger />
-						</div>
+						<Navbar />
 						{children}
 					</main>
 				</SidebarProvider>

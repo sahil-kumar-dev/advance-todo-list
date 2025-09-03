@@ -47,7 +47,7 @@ export default function TodoForm({
 	});
 
 	const onSubmit = async (data: AddTodoSchema) => {
-		if (isEdit) {
+		if (isEdit && id) {
 			await updateTodo(id, data);
 			toast.info("Todo updated successfully");
 			router.push("/todos");
@@ -61,15 +61,17 @@ export default function TodoForm({
 
 	useEffect(() => {
 		(async () => {
-			if (isEdit) {
+			if (isEdit && id) {
 				const todo = await findTodoById(id);
-				const parsedTodo = JSON.parse(todo);
-				console.log(parsedTodo);
-				setValue("title", parsedTodo.title);
-				setValue("description", parsedTodo.description);
-				setValue("startDate", new Date(parsedTodo.startDate));
-				setValue("category", parsedTodo.category);
-				setValue("endDate", new Date(parsedTodo.endDate));
+				if (todo) {
+					const parsedTodo = JSON.parse(todo);
+					setValue("title", parsedTodo.title);
+					setValue("description", parsedTodo.description);
+					setValue("startDate", new Date(parsedTodo.startDate));
+					setValue("category", parsedTodo.category);
+					setValue("endDate", new Date(parsedTodo.endDate));
+				}
+				return;
 			}
 		})();
 	}, [id, isEdit, reset, setValue]);
