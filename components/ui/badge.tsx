@@ -13,12 +13,8 @@ const badgeVariants = cva(
 					"border-transparent bg-primary text-primary-foreground [a&]:hover:bg-primary/90",
 				completed:
 					"border-transparent bg-success text-white [a&]:hover:bg-secondary/90",
-				inProgress:
-					"border-transparent bg-progress text-white [a&]:hover:bg-secondary/90",
-				overdue:
-					"border-transparent bg-error text-white [a&]:hover:bg-error/90",
-				notStarted:
-					"border-transparent bg-[#fbbf24] text-secondary-foreground [a&]:hover:bg-[#fbbf24]/90",
+				pending:
+					"border-transparent bg-error text-white [a&]:hover:bg-error/90"
 			},
 		},
 		defaultVariants: {
