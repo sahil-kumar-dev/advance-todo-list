@@ -40,9 +40,6 @@ export default function TodoForm({
 		setValue,
 		formState: { errors, isSubmitting },
 	} = useForm<AddTodoSchema>({
-		defaultValues: {
-			startDate: new Date(),
-		},
 		resolver: zodResolver(addTodoSchema),
 	});
 
@@ -70,11 +67,13 @@ export default function TodoForm({
 					setValue("startDate", new Date(parsedTodo.startDate));
 					setValue("category", parsedTodo.category);
 					setValue("endDate", new Date(parsedTodo.endDate));
+				} else {
+					router.push("/todos");
+					toast.error("Todo not found");
 				}
-				return;
 			}
 		})();
-	}, [id, isEdit, reset, setValue]);
+	}, [id, isEdit, reset, setValue, router]);
 
 	return (
 		<Card>

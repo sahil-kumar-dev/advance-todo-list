@@ -13,6 +13,18 @@ export default async function Page() {
 		return <div>No todos found.</div>;
 	}
 
+
+	/**
+	 * TODO: Add pagination to the todos
+	 * TODO: Add filters to the todos
+	 * TODO: Add search to the todos
+	 * TODO: Add sorting to the todos
+	 * TODO: FIX THEME SWITCH
+	 * TODO: MAP DATA PROPERLY IN HOMEPAGE
+	 * TODO: SOLVE FORM VALIDATIONS
+	 * TODO: WRITE TEST CASES
+	 */
+
 	return (
 		<div className="flex items-center justify-center h-full">
 			<div className="content h-[calc(100vh_-_150px)]">

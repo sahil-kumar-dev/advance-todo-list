@@ -7,6 +7,7 @@ import { Button } from "../ui/button";
 import { CheckCheck, Pencil, Trash } from "lucide-react";
 import { deleteTodo, updateStatus } from "@/services";
 import Link from "next/link";
+import { toast } from "sonner";
 
 export default function TodoCard({
 	title,
@@ -25,11 +26,12 @@ export default function TodoCard({
 	id: string;
 	showCta?: boolean;
 }) {
-	const handleDeleteTodo = () => {
+	const handleDeleteTodo = (id: string) => {
 		deleteTodo(id);
+		toast.success("Todo deleted successfully");
 	};
 
-	const handleUpdateTodo = () => {
+	const handleUpdateTodo = (id: string) => {
 		updateStatus(id);
 	};
 
@@ -44,7 +46,7 @@ export default function TodoCard({
 					<div className=" gap-1 md:gap-2 lg:gap-4 hidden lg:flex">
 						<Button
 							onClick={() => {
-								updateStatus(id);
+								handleUpdateTodo(id);
 							}}
 							className="bg-success hover:bg-success/70 disabled:cursor-not-allowed"
 							disabled={status === "completed"}
@@ -62,7 +64,7 @@ export default function TodoCard({
 							</Button>
 						</Link>
 						<Button
-							onClick={() => deleteTodo(id)}
+							onClick={() => handleDeleteTodo(id)}
 							className="bg-error hover:bg-error/70"
 						>
 							Delete

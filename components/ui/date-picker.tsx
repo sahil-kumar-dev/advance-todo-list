@@ -41,7 +41,13 @@ export function DatePicker({
 					mode="single"
 					selected={date}
 					onSelect={setDate}
-					disabled={disabled}
+					disabled={(d) => {
+						const today = new Date();
+						today.setHours(0, 0, 0, 0);
+						const check = new Date(d);
+						check.setHours(0, 0, 0, 0);
+						return check < today;
+					}}
 				/>
 			</PopoverContent>
 		</Popover>
