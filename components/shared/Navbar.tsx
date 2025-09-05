@@ -10,10 +10,9 @@ export default function Navbar() {
 	return (
 		<nav className="fixed top-0 dark:bg-gray-800 bg-white w-full py-1 md:px-4 flex items-center gap-20  ">
 			<SidebarTrigger />
-			<button ref={ref} className="">
+			<button ref={ref}>
 				<ToggleButton
 					isDark={isDarkMode}
-					invertedIconLogic
 					onChange={toggleSwitchTheme}
 				/>
 			</button>

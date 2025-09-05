@@ -25,7 +25,7 @@ export const addTodo = async (data: {
 export const getAllTodos = async (params?: {
     search?: string;
     status?: string;
-    sort?: string;
+    category?: string;
 }) => {
     try {
         await connectDB();
@@ -48,33 +48,19 @@ export const getAllTodos = async (params?: {
             }
         }
 
-        let todosQuery = Todo.find(query);
-
-        // Sort functionality
-        const sortOption = params?.sort || 'closest';
-        switch (sortOption) {
-            case 'closest':
-                // Sort by endDate ascending (closest first)
-                todosQuery = todosQuery.sort({ endDate: 1 });
-                break;
-            case 'farthest':
-                // Sort by endDate descending (farthest first)
-                todosQuery = todosQuery.sort({ endDate: -1 });
-                break;
-            case 'newest':
-                // Sort by creation date descending (assuming you have createdAt field)
-                todosQuery = todosQuery.sort({ createdAt: -1 });
-                break;
-            case 'oldest':
-                // Sort by creation date ascending (assuming you have createdAt field)
-                todosQuery = todosQuery.sort({ createdAt: 1 });
-                break;
-            default:
-                todosQuery = todosQuery.sort({ endDate: 1 });
+        // Category filter
+        if (params?.category && params.category.trim() !== '') {
+            const categories = params.category
+                .split(',')
+                .map((c) => c.trim())
+                .filter((c) => c !== '');
+            if (categories.length > 0) {
+                query.category = { $in: categories };
+            }
         }
 
-        const response = await todosQuery;
-        return response;
+        const response = await Todo.find(query).sort({ endDate: -1 })
+        return JSON.stringify(response);
     } catch (error) {
         console.log(error);
         throw error;
@@ -85,9 +71,8 @@ export const updateStatus = async (id: string) => {
     try {
         connectDB()
         console.log(id)
-        const response = await Todo.findByIdAndUpdate(id, { status: "completed", endDate: new Date() }, { new: true })
+        await Todo.findByIdAndUpdate(id, { status: "completed", endDate: new Date() }, { new: true })
         revalidatePath('/todos')
-        return response
     } catch (error) {
         console.log(error)
     }
@@ -97,8 +82,8 @@ export const deleteTodo = async (id: string) => {
     try {
         connectDB()
         const response = await Todo.findByIdAndDelete(id)
-        revalidatePath('/todos')
-        return response
+        revalidatePath('todos')
+        return JSON.stringify(response)
     } catch (error) {
         console.log(error)
     }
@@ -114,13 +99,14 @@ export const findTodoById = async (id: string) => {
     }
 }
 
-export const updateTodo = async (id: string, data: {
+export const updateTodo = async (id: string, data: Partial<{
     title: string,
     description: string,
     startDate: Date,
     category: string,
-    endDate: Date
-}) => {
+    endDate: Date,
+    status: string,
+}>) => {
     try {
         connectDB()
         await Todo.findByIdAndUpdate(id, data, { new: true })

@@ -36,7 +36,7 @@ export default function RootLayout({
 						position="top-center"
 					/>
 					<AppSidebar />
-					<main className="w-full relative bg-[#F5F8FF] dark:bg-gray-800 ">
+					<main className="w-full relative bg-[#F5F8FF] dark:bg-gray-800 py-10 ">
 						<Navbar />
 						{children}
 					</main>
