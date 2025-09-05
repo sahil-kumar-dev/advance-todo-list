@@ -4,11 +4,11 @@ import { Input } from "@/components/ui/input";
 import { todosCategories } from "@/constants";
 import { formUrlQuery, removeKeysFromQuery } from "@/lib/utils";
 import { useTodoStore } from "@/store/use-todo-store";
-import { Search, Calendar, CheckCircle2, Clock, X } from "lucide-react";
+import { CheckCircle2, Clock, Search, X } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 
-export default function Page() {
+function TodosPage() {
 	const { todos, fetchTodos, loading } = useTodoStore();
 	const router = useRouter();
 	const searchParams = useSearchParams();
@@ -280,5 +280,13 @@ export default function Page() {
 				)}
 			</div>
 		</div>
+	);
+}
+
+export default function Page() {
+	return (
+		<Suspense>
+			<TodosPage />
+		</Suspense>
 	);
 }
