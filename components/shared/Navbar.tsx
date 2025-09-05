@@ -1,29 +1,21 @@
 "use client";
 
-import React, { useEffect } from "react";
+import { useModeAnimation } from "react-theme-switch-animation";
 import { SidebarTrigger } from "../ui/sidebar";
-import { useThemeStore } from "@/store/use-theme-store";
+import ToggleButton from "./ToggleButton";
 
 export default function Navbar() {
-	const { handleThemeChange, setMode, mode } = useThemeStore();
-
-	useEffect(() => {
-		handleThemeChange();
-	}, [setMode]);
-
-	const handleChange = () => {
-		setMode(mode === "light" ? "dark" : "light");
-	};
+	const { ref, toggleSwitchTheme, isDarkMode } = useModeAnimation();
 
 	return (
-		<nav className="fixed top-0 dark:bg-gray-800 bg-white w-full py-1 md:px-4">
+		<nav className="fixed top-0 dark:bg-gray-800 bg-white w-full py-1 md:px-4 flex items-center gap-20  ">
 			<SidebarTrigger />
-			hello
-			<button
-				onClick={handleChange}
-				className="dark:text-white text-black"
-			>
-				{mode}
+			<button ref={ref} className="">
+				<ToggleButton
+					isDark={isDarkMode}
+					invertedIconLogic
+					onChange={toggleSwitchTheme}
+				/>
 			</button>
 		</nav>
 	);

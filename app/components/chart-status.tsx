@@ -10,7 +10,6 @@ import {
 	ChartTooltipContent,
 } from "@/components/ui/chart";
 
-
 const chartConfig: ChartConfig = {
 	completed: {
 		label: "Completed",
@@ -22,8 +21,8 @@ const chartConfig: ChartConfig = {
 	},
 } as ChartConfig;
 
-export function ChartStatus({ todos }) {
-    
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function ChartStatus({ todos }: any) {
 	if (!Array.isArray(todos)) {
 		return <div>No todos found.</div>;
 	}

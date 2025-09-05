@@ -4,7 +4,6 @@
 import connectDB from "@/config/db.config";
 import Todo from "@/models/todo.model";
 import { revalidatePath } from "next/cache";
-import queryString from "query-string";
 
 export const addTodo = async (data: {
     title: string,
@@ -31,6 +30,7 @@ export const getAllTodos = async (params?: {
     try {
         await connectDB();
 
+        // eslint-disable-next-line prefer-const
         let query: any = {};
 
         if (params?.search && params.search.trim() !== '') {

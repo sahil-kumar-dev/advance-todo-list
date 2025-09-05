@@ -20,7 +20,6 @@ export default function Page() {
 	const [todos, setTodos] = useState<Todo[]>([]);
 	const [loading, setLoading] = useState(true);
 	const router = useRouter();
-	const pathname = usePathname();
 	const searchParams = useSearchParams();
 
 	// Get URL parameters
@@ -160,7 +159,7 @@ export default function Page() {
 		<div className="flex justify-center h-full py-10 md:py-20 px-4">
 			<div className="w-full max-w-4xl space-y-6">
 				{/* Search and Filter Controls */}
-				<div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
+				<div className="bg-white dark:bg-gray-400 rounded-lg border border-gray-200 p-6 shadow-sm">
 					<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
 						{/* Search Input */}
 						<div className="relative">
@@ -192,7 +191,7 @@ export default function Page() {
 									onClick={() =>
 										handleStatusToggle("pending")
 									}
-									className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium transition-colors ${
+									className={`inline-flex cursor-pointer items-center gap-1 px-3 py-1 rounded-full text-xs font-medium transition-colors ${
 										checkedStatuses.includes("pending")
 											? "bg-yellow-100 text-yellow-800 border-2 border-yellow-300"
 											: "bg-gray-100 text-gray-600 border-2 border-transparent hover:bg-gray-200"
@@ -208,7 +207,7 @@ export default function Page() {
 									onClick={() =>
 										handleStatusToggle("completed")
 									}
-									className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium transition-colors ${
+									className={`inline-flex cursor-pointer items-center gap-1 px-3 py-1 rounded-full text-xs font-medium transition-colors ${
 										checkedStatuses.includes("completed")
 											? "bg-green-100 text-green-800 border-2 border-green-300"
 											: "bg-gray-100 text-gray-600 border-2 border-transparent hover:bg-gray-200"
@@ -344,67 +343,3 @@ export default function Page() {
 		</div>
 	);
 }
-
-// Updated service function to handle the new parameters
-// Add this to your services/index.ts file:
-
-/*
-export const getAllTodos = async (params?: {
-  search?: string;
-  status?: string;
-  sort?: string;
-}) => {
-  try {
-    await connectDB();
-    
-    let query: any = {};
-    
-    // Search functionality - search in title and description
-    if (params?.search && params.search.trim() !== '') {
-      query.$or = [
-        { title: { $regex: params.search, $options: 'i' } },
-        { description: { $regex: params.search, $options: 'i' } }
-      ];
-    }
-    
-    // Status filter - handle multiple statuses
-    if (params?.status && params.status.trim() !== '') {
-      const statuses = params.status.split(',').filter(s => s.trim() !== '');
-      if (statuses.length > 0) {
-        query.status = { $in: statuses };
-      }
-    }
-    
-    let todosQuery = Todo.find(query);
-    
-    // Sort functionality
-    const sortOption = params?.sort || 'closest';
-    switch (sortOption) {
-      case 'closest':
-        // Sort by endDate ascending (closest first)
-        todosQuery = todosQuery.sort({ endDate: 1 });
-        break;
-      case 'farthest':
-        // Sort by endDate descending (farthest first)
-        todosQuery = todosQuery.sort({ endDate: -1 });
-        break;
-      case 'newest':
-        // Sort by creation date descending (assuming you have createdAt field)
-        todosQuery = todosQuery.sort({ createdAt: -1 });
-        break;
-      case 'oldest':
-        // Sort by creation date ascending (assuming you have createdAt field)
-        todosQuery = todosQuery.sort({ createdAt: 1 });
-        break;
-      default:
-        todosQuery = todosQuery.sort({ endDate: 1 });
-    }
-    
-    const response = await todosQuery;
-    return response;
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
-};
-*/
